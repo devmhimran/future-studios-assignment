@@ -18,8 +18,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
-    <html lang='en' className={`${inter.className} h-full antialiased`}>
-      <body className='min-h-full flex flex-col'>
+    <html lang='en' className={`${inter.className} h-full antialiased `}>
+      <body className='min-h-full flex flex-col bg-[#F0EEDE]'>
         <Suspense fallback={<Loading />}>
           <DefaultProvider>{children}</DefaultProvider>
         </Suspense>

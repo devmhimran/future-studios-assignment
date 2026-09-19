@@ -10,10 +10,8 @@ interface HeroSectionProps {
 
 export function HeroSection({ onBrowseCategories, onShop }: HeroSectionProps) {
   return (
-    <section className='w-full pb-16'>
+    <section className='container mx-auto pb-16'>
       <div className='relative isolate overflow-hidden border-b border-[#004643]/15 bg-[#F0EEDE5]'>
-        <div className='absolute inset-y-0 right-0 -z-10 hidden w-1/2 bg-[#004643] lg:block' />
-        <div className='absolute -left-12 bottom-0 -z-10 size-48 rounded-full bg-[#004643]/10' />
         <div className='grid min-h-145 lg:grid-cols-[.92fr_1.08fr] lg:items-center'>
           <div className='relative px-7 py-14 sm:px-12 lg:py-20 lg:pl-14'>
             <p className='text-xs font-bold uppercase tracking-[0.2em] text-[#004643]/60'>

@@ -1,6 +1,6 @@
 'use client';
 
-import { Footer, Navbar } from '@/components/shared';
+import { Footer, ProductFilterContainer } from '@/components/shared';
 import { useGetAllProducts, useGetCategories } from '@/hooks';
 import { generateQueryString } from '@/lib';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -9,6 +9,7 @@ import { useDebouncedCallback } from 'use-debounce';
 import { CategorySection } from './category-section';
 import { HeroSection } from './hero-section';
 import { ProductsSection } from './products-section';
+import ProductPagination from './products-pagination';
 
 export function HomepageContent() {
   const searchParams = useSearchParams();
@@ -58,15 +59,7 @@ export function HomepageContent() {
   };
 
   return (
-    <main
-      id='top'
-      className='min-h-screen overflow-hidden bg-[#F0EEDE5] text-[#004643]'
-    >
-      <Navbar
-        activeCategory={params.category}
-        categories={categories}
-        onCategoryChange={selectCategory}
-      />
+    <main className='min-h-screen overflow-hidden bg-[#F0EEDE5] text-[#004643]'>
       <HeroSection
         onBrowseCategories={() => scrollTo('discover')}
         onShop={() => scrollTo('shop')}
@@ -75,16 +68,22 @@ export function HomepageContent() {
         categories={categories}
         onCategorySelect={handleCategorySelect}
       />
-      <ProductsSection
-        isLoading={fetchAllProducts.isLoading}
+      <ProductFilterContainer
         meta={fetchAllProductsData?.meta}
-        onPageChange={changePage}
         onSearch={debouncedSearch}
         params={params}
-        products={products}
         searchQuery={searchQuery}
         setParams={setParams}
         setSearchQuery={setSearchQuery}
+      />
+      <ProductsSection
+        isLoading={fetchAllProducts.isLoading}
+        products={products}
+      />
+
+      <ProductPagination
+        meta={fetchAllProductsData?.meta}
+        onPageChange={changePage}
       />
       <Footer />
     </main>

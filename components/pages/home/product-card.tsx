@@ -26,7 +26,7 @@ export function ProductCard({ product }: ProductCardProps) {
       : 0;
   return (
     <Card
-      className='group overflow-hidden rounded-sm bg-[#F0EEDE]/60 p-3 text-[#004643] ring-[#004643]/15 transition hover:ring-[#004643]/45'
+      className='group overflow-hidden rounded-sm bg-[#f7f7ed]/60 p-3 text-[#004643] ring-[#004643]/15 transition hover:ring-[#004643]/45'
       size='sm'
     >
       <div className='relative aspect-square overflow-hidden bg-slate-100'>
