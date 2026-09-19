@@ -10,12 +10,12 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
-import { useCartStore } from '@/store/cart-store';
-import { ChevronDown, Menu, ShoppingBag, X } from 'lucide-react';
+import { ChevronDown, Menu, X } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
 import { useGetCategories } from '@/hooks';
 import { useSearchParams } from 'next/navigation';
+import { CartSheet } from './cart-sheet';
 
 export function Navbar() {
   const searchParams = useSearchParams();
@@ -23,7 +23,6 @@ export function Navbar() {
   const { fetchAllCategoriesData, fetchAllCategories } = useGetCategories();
   const [menuOpen, setMenuOpen] = useState(false);
   const [categoriesOpen, setCategoriesOpen] = useState(false);
-  const totalItems = useCartStore((state) => state.getTotalItems());
 
   return (
     <header className='sticky top-0 z-40 bg-[#004643]/90 backdrop-blur-xl'>
@@ -95,17 +94,7 @@ export function Navbar() {
           >
             Sign in
           </Button>
-          <Button
-            aria-label='Shopping cart'
-            className='relative rounded-xl'
-            size='icon-lg'
-            variant='outline'
-          >
-            <ShoppingBag className='size-4' />
-            <span className='absolute -right-1 -top-1 grid size-4 place-items-center rounded-full bg-[#F0EEDE] text-[10px] font-bold text-[#004643]'>
-              {totalItems}
-            </span>
-          </Button>
+          <CartSheet />
           <Button
             aria-label='Toggle navigation menu'
             className='rounded-xl md:hidden bg-[#004643] text-[#F0EEDE]'
