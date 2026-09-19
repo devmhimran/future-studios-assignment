@@ -1,3 +1,5 @@
+import type { Category } from './categories.types';
+
 export interface Product {
   slug: string;
   title: string;
@@ -25,7 +27,7 @@ export interface ProductDetail extends Product {
   categoryId: number;
 }
 
-export interface ProductDetailResponse {
-  data: ProductDetail;
+export interface ProductDetailResponse extends ProductDetail {
   relatedProducts: ProductDetail[];
+  category?: Category;
 }

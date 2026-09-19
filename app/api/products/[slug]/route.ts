@@ -1,3 +1,4 @@
+import categoriesData from '@/data/categories.json';
 import productsData from '@/data/products-500.json';
 import { jsonResponse, optionsResponse } from '@/lib';
 
@@ -14,7 +15,10 @@ export async function GET(_: Request, { params }: RouteContext) {
   const product = productsData.products.find((item) => item.slug === slug);
 
   if (!product) {
-    return jsonResponse({ error: { message: 'Product not found' } }, { status: 404 });
+    return jsonResponse(
+      { error: { message: 'Product not found' } },
+      { status: 404 },
+    );
   }
 
   const productsById = new Map(
@@ -25,5 +29,9 @@ export async function GET(_: Request, { params }: RouteContext) {
     return relatedProduct ? [relatedProduct] : [];
   });
 
-  return jsonResponse({ data: product, relatedProducts });
+  const category = categoriesData.categories.find(
+    (cat) => cat.id === product.categoryId,
+  );
+
+  return jsonResponse({ ...product, relatedProducts, category });
 }
