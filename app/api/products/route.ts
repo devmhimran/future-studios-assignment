@@ -1,5 +1,6 @@
 import categoriesData from '@/data/categories.json';
 import productsData from '@/data/products-500.json';
+import { jsonResponse, optionsResponse } from '@/lib';
 
 const sortOptions = [
   'featured',
@@ -38,7 +39,11 @@ function parseInteger(value: string | null, name: string, fallback: number) {
 }
 
 function errorResponse(message: string) {
-  return Response.json({ error: { message } }, { status: 400 });
+  return jsonResponse({ error: { message } }, { status: 400 });
+}
+
+export function OPTIONS() {
+  return optionsResponse();
 }
 
 export function GET(request: Request) {
@@ -144,7 +149,7 @@ export function GET(request: Request) {
         }),
       );
 
-    return Response.json({
+    return jsonResponse({
       data: products,
       meta: {
         page,

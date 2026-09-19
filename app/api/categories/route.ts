@@ -1,4 +1,5 @@
 import categoriesData from '@/data/categories.json';
+import { jsonResponse, optionsResponse } from '@/lib';
 
 function parseInteger(value: string | null, name: string, fallback: number) {
   if (value === null || value === '') return fallback;
@@ -13,7 +14,11 @@ function parseInteger(value: string | null, name: string, fallback: number) {
 }
 
 function errorResponse(message: string) {
-  return Response.json({ error: { message } }, { status: 400 });
+  return jsonResponse({ error: { message } }, { status: 400 });
+}
+
+export function OPTIONS() {
+  return optionsResponse();
 }
 
 export function GET(request: Request) {
@@ -34,7 +39,7 @@ export function GET(request: Request) {
       .slice(start, start + limit)
       .map(({ id, name, slug }) => ({ id, name, slug }));
 
-    return Response.json({
+    return jsonResponse({
       data: categories,
       meta: {
         page,

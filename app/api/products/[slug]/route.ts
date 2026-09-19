@@ -1,7 +1,12 @@
 import productsData from '@/data/products-500.json';
+import { jsonResponse, optionsResponse } from '@/lib';
 
 interface RouteContext {
   params: Promise<{ slug: string }>;
+}
+
+export function OPTIONS() {
+  return optionsResponse();
 }
 
 export async function GET(_: Request, { params }: RouteContext) {
@@ -9,8 +14,8 @@ export async function GET(_: Request, { params }: RouteContext) {
   const product = productsData.products.find((item) => item.slug === slug);
 
   if (!product) {
-    return Response.json({ error: { message: 'Product not found' } }, { status: 404 });
+    return jsonResponse({ error: { message: 'Product not found' } }, { status: 404 });
   }
 
-  return Response.json({ data: product });
+  return jsonResponse({ data: product });
 }
