@@ -1,14 +1,18 @@
-# Skill: Review (ρ_rev)
+# Skill: Review
 
-## 🎯 Mandate
+## Mandate
 
-Review generated features, code blocks, and workspace pull requests to enforce code compression guidelines, type safety standards, and strict layout token compliance.
+Review product-catalog changes for correct Next.js boundaries, typed API behavior, and reliable search/filter/pagination UX.
 
-## 🔍 Critical Inspection Checklist
+## Checklist
 
-- **Import Isolation Verification:** Fail any execution code path that imports atomic design primitives or composite wrappers using deep relative paths. All UI system elements must settle cleanly through the unified workspace barrel path (`@repo/ui`).
-- **Type Aggregation Quality:** Ensure that no cross-file entity imports directly touch separate type files within the app. All local applications must extract domain signatures exclusively from the aggregated alias root `@/types`.
-- **State Layer Validation:** Audit application containers to ensure local business operations do not bypass custom hooks or query invalidation chains.
-- **Form Layout Compliance:** Verify that no raw html input blocks are used. Ensure all inputs are managed through React Hook Form and wrapped inside Shadcn `<FieldSet>` layout boundaries.
-- **Typography Enforcement:** Cross-check headers and body copy against strict styling tokens (`font-bold`, `tracking-tight`) to maintain a clean, ultra-modern interface.
-- **Syntactic Noise Reduction:** Enforce token budget specifications by striping out any comments, verbose declarations, block braces, and uncompressed imports.
+- JSON fixture imports occur only in server-side code; no client component imports from `data/`.
+- Product routes live under `app/api/` and use route handlers, not `pages/api`.
+- Route handlers validate query parameters and return a stable `{ data, meta }` product response.
+- Filtering supports search, category, minimum rating, price range, and supported sorting values.
+- Pagination totals are calculated after filtering, pages are one-based, and out-of-range navigation is blocked.
+- Filter or sort changes reset the requested page to `1`.
+- React Query keys include all request parameters and loading transitions do not discard visible results unnecessarily.
+- App imports use `@/` aliases; type imports use `@/types`; UI primitives use `@/components/ui`.
+- Public page composition is separate from API, hook, and server filtering responsibilities.
+- Generated code is strictly typed and contains no comments or dead code.

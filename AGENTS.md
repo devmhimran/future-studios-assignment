@@ -1,56 +1,75 @@
-# Token Optimization Protocol (TOP) & System Context
+# Project Context
 
-You are an expert full-stack developer acting within a high-performance TurboRepo monorepo. Your purpose is to generate clean, compact, production-ready frontend code matching our engineering specifications exactly while maximizing context efficiency.
+This repository is a single Next.js 16 App Router application for browsing a local product catalog. Product, category, and review fixtures live in `data/`; Next.js route handlers expose them as HTTP APIs; the public page consumes those APIs to provide search, filters, sorting, and pagination.
 
-## ⚡ Token Compression Engine (~90% Savings)
+## Code Rules
 
-To save max context tokens, all interactions use Tokenized Pseudo-Code (TPC) syntax definitions. Do not expand boilerplate unless requested.
+- Write compact, production-ready TypeScript with strict types.
+- Do not add comments, JSDoc, inline explanations, or commented-out code.
+- Use existing shadcn components from `@/components/ui` before creating a new primitive.
+- Keep server-only fixture reads and filtering logic out of client components.
+- Preserve existing user changes. Do not rewrite unrelated files.
 
-> ⚠️ **STRICT CODE RULE:** Do not add any comments, JSDoc, inline explanations, or commented-out code blocks under any circumstances. All output code must be raw, self-documenting executable code only.
+## Repository Structure
 
-### 🪙 Tokenization Dictionary
+```text
+app/
+  (public)/page.tsx                  Public product-search page
+  api/products/route.ts              Product collection API
+  api/categories/route.ts            Category collection API
+  globals.css                        Global Tailwind styles
+  layout.tsx                         Root layout and providers
+api/
+  index.ts                           Client API modules and barrel exports
+components/
+  pages/home/                        Product-search page container and views
+  forms/                             Reusable search and filter controls
+  providers/                         React Query and application providers
+  shared/                            Reusable application-level components
+  ui/                                Local shadcn primitives
+config/env.ts                        Environment access
+data/                                Local product, category, and review fixtures
+hooks/                               React Query hooks and barrel exports
+lib/                                 HTTP client, server query helpers, and utilities
+types/                               Domain contracts and barrel exports
+```
 
-- `α_api`: Domain API Object (`apps/admin/api/*`) -> `get|post|put|del` using custom fetch wrapper
-- `ψ_hook`: TanStack Hook (`apps/admin/hooks/*`) -> React Query mutations/queries with cache invalidation
-- `τ_typ`: Domain Type Definitions (`apps/admin/types/*`) -> Strict typing models bundled via barrel exports
-- `φ_form`: Form element using React Hook Form, Zod validation, and Shadcn `<FieldSet>` wrappers
-- `λ_page`: Feature container page with reactive search, filter states, and a create modal wrapper
-- `⚙_cfg`: Application settings, environments, and validation schemas (`apps/admin/config/*`)
-- `🧰_lib`: App-level infrastructure (`auth.ts`, custom fetcher with interceptors, global query client configurations)
-- `📦_ui`: Atomic and custom composite design system tokens imported directly from `@repo/ui`
+Create a file only when its responsibility cannot belong in an existing nearby module. Keep route handlers thin: parse and validate request parameters, call a server-side helper, and return `Response.json`.
 
----
+## Import Conventions
 
-## 📁 Workspace Mapping
+- Use `@/` for all application imports: `@/api`, `@/components/ui/button`, `@/hooks`, `@/lib`, `@/types`, and `@/config/env`.
+- Use relative imports only within the same tightly coupled feature folder, such as sibling UI parts under `components/pages/home/`.
+- Import domain contracts only from `@/types`, never from a concrete type file.
+- Import public API modules only from `@/api` and hooks only from `@/hooks`.
+- Use `import type` for type-only imports.
+- JSON fixture imports belong only in server-side modules or route handlers. Never import `data/*.json` into a client component.
 
-- **apps/admin/**:
-  ├── `api/`: Domain API services organized by entity matching HTTP methods. Needs `index.ts` barrel export.
-  ├── `app/`: Next.js 16+ App Router routes split cleanly into `(private)` and `(public)` route groups.
-  ├── `config/`: App-level environment variable validation and fail-safes (`env.ts`).
-  ├── `lib/`: Domain runtime engines (`auth.ts`, `fetch.ts`, `react-query.ts`, local app `utils.ts`).
-  ├── `hooks/`: Domain query hooks (`use{Entity}`) and mutation aggregators (`use{Entity}Mutation`).
-  ├── `types/`: Domain TypeScript contracts aggregated via `index.ts` utilizing `export * from` syntax (e.g., `color.ts`, `size.ts`, `common.ts`).
-  └── `components/`: Feature-scoped layout blocks:
-  ├── `forms/`: Standalone schema-driven form blocks using react-hook-form, zod, and `<FieldSet>`.
-  ├── `pages/`: Domain-specific page wrappers (e.g., `colors-search-container.tsx`) driving local data state.
-  ├── `providers/`: App context layers (e.g., `query-provider.tsx` configuring the TanStack engine).
-  ├── `shared/`: App-wide navigation and layout wrappers (e.g., `app-sidebar.tsx`).
-  └── `skeletons/`: Structural loading frames matching layout geometry exactly (e.g., `user-nav-skeleton.tsx`).
+## Product API Contract
 
-- **packages/ui/**: Shared system library workspace.
-  ├── `components/`: Internal module layout components.
-  ├── `ui/`: Pure atomic Shadcn primitives (e.g., `alert-dialog.tsx`, `dialog.tsx`, `button.tsx`).
-  ├── `shared/`: Custom extensions constructed out of atomic primitives used across all consumer frontend apps (`alert-modal.tsx`).
-  ├── `lib/`: Central shared code utilities (`utils.ts` holding the core `cn` class merger helper).
-  ├── `types/`: Common type specifications for the UI workspace and strict generic API payloads (`common.ts` mapping global `Response<X>` wrappers and pagination `Meta` data models).
-  └── `index.ts`: Unified workspace barrel exporter aggregating all modules via explicit `export * from` declarations.
+`GET /api/products` reads `data/products-500.json` and supports optional `search`, `category`, `rating`, `minPrice`, `maxPrice`, `sort`, `page`, and `limit` query parameters.
 
----
+- Search is case-insensitive across title, brand, description, and tags.
+- `category` is a category slug; `rating` is a minimum rating; price bounds are inclusive.
+- Supported sort values are `featured`, `price-asc`, `price-desc`, `rating-desc`, and `newest`.
+- `page` and `limit` are validated positive, one-based integers.
+- Return `{ data, meta }`, with `meta.page`, `meta.limit`, `meta.total`, and `meta.totalPages`.
 
-## 🤖 Matrix Routes
+`GET /api/categories` returns the category fixture for filter controls. Invalid query values must be normalized or rejected consistently; never trust query strings as typed input.
 
-1. **Architect:** Structural engineering, file generation mapping, and workspace routing setups.
-2. **Imprint:** Rapid CRUD blueprint replication across features using dense token declarations.
-3. **Review:** Design token auditing, `@repo/ui` boundary verification, and syntax optimization policing.
-4. **Recover:** Broken code refactoring, query key sync patches, and API payload contract corrections.
-5. **Remember:** Cross-session memory persistence for environment states and architecture rules.
+## UI and Data Flow
+
+1. The API reads JSON fixtures and applies search, category, rating, price, sort, then pagination.
+2. The client keeps filter state in the page container and requests APIs through `api/` and `hooks/`.
+3. Any filter or sort change resets page `1`.
+4. Pagination uses `meta.totalPages` and cannot request an invalid page.
+5. Product cards remain presentational and receive typed product props.
+
+Use React Query for remote client data. Include all normalized query parameters in the query key and preserve visible results during page transitions.
+
+## Local Skills
+
+- **Architect:** Plan App Router and data-flow changes before creating files.
+- **Imprint:** Implement typed APIs, query hooks, and catalog UI features.
+- **Review:** Audit import boundaries, route contracts, state resets, and pagination behavior.
+- **Remember:** Retain the fixture schema, API contract, and project conventions through the task.

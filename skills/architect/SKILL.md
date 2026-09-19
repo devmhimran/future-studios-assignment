@@ -1,13 +1,20 @@
-# Skill: Architect (α_arch)
+# Skill: Architect
 
-## 🎯 Mandate
+## Mandate
 
-Analyze system requirements to plan modular layout architectures, workspace boundary placements, and file arrangement sequences prior to compilation.
+Plan changes for this single Next.js App Router product-catalog application before implementation.
 
-## 🛠 Engineering Guardrails
+## Guardrails
 
-- **Route Isolation:** Map Next.js file routing targets strictly into `(private)` authenticated groups or `(public)` guest layout scopes.
-- **Component Demarcation:** Strictly split presentation boundaries between global shared primitives (`@repo/ui`) and the admin application's contextual domain wrappers.
-- **Data Typings Flow:** Route all entity-specific data contracts through `τ_typ` and ensure everything surfaces cleanly through a centralized `types/index.ts` file barrel.
-- **Pipeline Infrastructure:** Funnel cross-cutting concerns strictly through global application `providers/` and coordinate static parameters through the central `⚙_cfg` module.
-- **Manifest Output Requirement:** When tasked with architectural layout updates, generate a compressed project schema outline rather than raw boilerplate code: `Manifest = { domain: string, filesToCreate: string[], dependencies: string[] }`.
+- Treat `data/products-500.json`, `data/categories.json`, and `data/reviews.json` as the local source of truth.
+- Place HTTP endpoints in `app/api/<resource>/route.ts`; do not use `pages/api` or external backend folders.
+- Keep fixture access, query parsing, filtering, sorting, and pagination in server-only route-handler helpers.
+- Keep `app/(public)/page.tsx` thin by composing a feature container from `components/pages/home/`.
+- Define reusable product, category, filter, and pagination contracts in `types/`, then export them from `types/index.ts`.
+- Use `api/` for client endpoint wrappers, `hooks/` for React Query hooks, and `lib/` for shared infrastructure and server helpers.
+
+## Output
+
+For architecture requests, provide a concise manifest:
+
+`Manifest = { filesToCreate: string[], filesToUpdate: string[], dataFlow: string[] }`

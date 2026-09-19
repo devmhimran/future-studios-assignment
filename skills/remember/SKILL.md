@@ -1,10 +1,15 @@
-# Skill: Remember (μ_rem)
+# Skill: Remember
 
-## 🎯 Mandate
+## Mandate
 
-Retain global workspace selections, environment variable states, architecture schemas, and custom API interceptor requirements throughout multi-step conversational lifecycles.
+Retain the active project model during this product-catalog task.
 
-## 🧠 Continuous Memory Core
+## Persistent Context
 
-- **Monorepo Separation Awareness:** Maintain permanent clarity on package splits, specifically recognizing what code patterns belong inside the workspace consumer application (`apps/admin/`) versus the localized library provider package (`packages/ui/`).
-- **Centralization Rules:** Prevent feature drift by verifying that general operations and shared utilities consistently extend existing features found inside `packages/ui/lib/utils.ts`, `apps/admin/types/index.ts` structures, and application configurations defined within `⚙_cfg`.
+- This is a single Next.js 16 App Router repository, not a TurboRepo or an `apps/admin` workspace.
+- `data/products-500.json`, `data/categories.json`, and `data/reviews.json` are local fixture sources.
+- Next.js route handlers in `app/api/` provide the application backend API.
+- The public catalog will support text search, category, minimum rating, price filtering, sorting, and pagination.
+- The API response for a product collection is `{ data, meta }` with page metadata.
+- `api/` contains client endpoint wrappers, `hooks/` contains React Query hooks, `types/` contains barrel-exported contracts, and `components/pages/home/` contains catalog UI.
+- Use `@/` aliases for cross-folder imports and never import fixture JSON from client components.
