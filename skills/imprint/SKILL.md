@@ -26,6 +26,8 @@ Implement compact, typed product-catalog features for this Next.js application.
 
 - Keep the page container responsible for filter state and query orchestration.
 - Keep cards, filter controls, result summaries, and pagination controls presentational and typed through props.
+- Keep desktop catalog filters in a sidebar and compose mobile filters through the existing shadcn Sheet primitive when the layout requires a compact control surface.
+- Reuse `components/pages/home/product-card.tsx` for catalog product grids unless the product presentation itself changes.
 - Import local shadcn primitives from `@/components/ui/<component>`.
 - Use accessible labels and disable pagination actions when no valid next or previous page exists.
 
