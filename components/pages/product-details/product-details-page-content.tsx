@@ -1,3 +1,9 @@
+'use client';
+
+import { useParams } from 'next/navigation';
+
 export function ProductDetailsPageContent() {
-  return <div>product-details-page-content</div>;
+  const params = useParams();
+
+  return <div>{params.slug}</div>;
 }

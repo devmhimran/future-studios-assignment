@@ -4,6 +4,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { ArrowRight, Star } from 'lucide-react';
 import type { Product } from '@/types';
 import Image from 'next/image';
+import Link from 'next/link';
 
 interface ProductCardProps {
   product: Product;
@@ -43,14 +44,16 @@ export function ProductCard({ product }: ProductCardProps) {
             -{discount}%
           </Badge>
         )}
-        <Button
-          aria-label={`Add ${product.title} to cart`}
-          className='absolute bottom-3 right-3 size-10 translate-y-14 rounded-full bg-[#004643] p-0 text-white opacity-0 transition duration-300 hover:bg-[#003d3a] group-hover:translate-y-0 group-hover:opacity-100'
-          size='icon'
-          variant='default'
-        >
-          <ArrowRight className='size-4' />
-        </Button>
+        <Link href={`/shops/${product.slug}`} className='absolute inset-0'>
+          <Button
+            aria-label={`Add ${product.title} to cart`}
+            className='absolute bottom-3 right-3 size-10 translate-y-14 rounded-full bg-[#004643] p-0 text-white opacity-0 transition duration-300 hover:bg-[#003d3a] group-hover:translate-y-0 group-hover:opacity-100'
+            size='icon'
+            variant='default'
+          >
+            <ArrowRight className='size-4' />
+          </Button>
+        </Link>
       </div>
       <CardContent className='px-1 pb-1 pt-4'>
         <p className='truncate text-xs font-bold uppercase tracking-[0.16em] text-[#004643]/60'>
@@ -59,7 +62,7 @@ export function ProductCard({ product }: ProductCardProps) {
         <h3 className='mt-1 truncate font-semibold text-[#004643]'>
           {product.title}
         </h3>
-        <div className='mt-2 flex items-center justify-between gap-2'>
+        <div className='mt-2 flex flex-col lg:flex-row lg:items-center justify-between gap-2'>
           <div className='flex items-baseline gap-1.5'>
             <span className='font-bold text-[#004643]'>
               {formatPrice(product.price)}
@@ -70,10 +73,11 @@ export function ProductCard({ product }: ProductCardProps) {
               </span>
             )}
           </div>
-          <span className='flex items-center gap-1 text-xs font-semibold text-[#004643]'>
+          <div className='flex items-center gap-1 text-xs font-semibold text-[#004643]'>
             <Star className='size-3 fill-current' />
-            {product.rating}
-          </span>
+            {product.rating && <span>{product.rating}</span>}
+            {product.rating && <span>({product.reviewCount})</span>}
+          </div>
         </div>
       </CardContent>
     </Card>

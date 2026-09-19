@@ -16,6 +16,7 @@ export interface ShopsPhoneFilterProps {
   meta?: Meta;
   params: ProductParams;
   setParams: Dispatch<SetStateAction<ProductParams>>;
+  updateSort?: (sort: string) => void;
 }
 
 export function ShopsPhoneFilter({
@@ -24,6 +25,7 @@ export function ShopsPhoneFilter({
   meta,
   params,
   setParams,
+  updateSort,
 }: ShopsPhoneFilterProps) {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const { fetchAllCategories, fetchAllCategoriesData } = useGetCategories();
@@ -36,12 +38,29 @@ export function ShopsPhoneFilter({
         <Search className='pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-[#004643]/45' />
 
         <Input
-          className='h-12 border-[#004643]/20 bg-[#F0EEDE] pl-11 text-[#004643] placeholder:text-[#004643]/45'
+          className='rounded-none h-12 border-[#004643]/20 bg-[#F0EEDE] pl-11 text-[#004643] placeholder:text-[#004643]/45'
           onChange={(event) => handleSearch(event.target.value)}
           placeholder='Search products'
           value={searchQuery}
         />
       </label>
+
+      <div className='mb-6 lg:hidden items-center justify-between gap-4 block mt-2'>
+        <label className='flex between items-center gap-2 text-sm text-[#004643]/65'>
+          Sort by
+          <select
+            className='w-3/6 ml-auto h-9 border border-[#004643]/20 bg-[#F0EEDE] px-2 text-sm text-[#004643] outline-none focus:border-[#004643]'
+            onChange={(event) => updateSort && updateSort(event.target.value)}
+            value={params.sort}
+          >
+            <option value='featured'>Featured</option>
+            <option value='price-asc'>Price: low to high</option>
+            <option value='price-desc'>Price: high to low</option>
+            <option value='rating-desc'>Top rated</option>
+            <option value='newest'>Newest</option>
+          </select>
+        </label>
+      </div>
 
       <div className='mt-6 flex items-center justify-between gap-3 lg:hidden'>
         <p className='text-sm text-[#004643]/65'>

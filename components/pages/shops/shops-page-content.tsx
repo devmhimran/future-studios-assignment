@@ -70,6 +70,7 @@ export function ShopsPageContent() {
           meta={meta}
           params={params}
           setParams={setParams}
+          updateSort={updateSort}
         />
 
         <div className='mt-10 grid gap-10 lg:grid-cols-[15rem_minmax(0,1fr)]'>
