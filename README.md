@@ -1,36 +1,104 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Future Studios Assignment
 
-## Getting Started
+A Next.js product catalog backed by local JSON fixtures. The application exposes product and category APIs, including product search, filtering, sorting, and pagination.
 
-First, run the development server:
+## Requirements
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- Node.js 20.9 or newer
+- pnpm 10.12.4 or newer
+
+## Environment setup
+
+Before installing or running the project, create your local environment file from the example:
+
+```powershell
+Copy-Item .env.example .env.local
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+For macOS or Linux:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+cp .env.example .env.local
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Set the API URL in `.env.local` to the local Next.js API:
 
-## Learn More
+```env
+NEXT_PUBLIC_API_URL=http://localhost:3000/api/
+```
 
-To learn more about Next.js, take a look at the following resources:
+If you run the app on another port, update this value to use that port.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Install pnpm
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+If pnpm is not installed, install the version used by this repository:
 
-## Deploy on Vercel
+```bash
+npm install --global pnpm@10.12.4
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Confirm the installation:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+pnpm --version
+```
+
+## Install dependencies
+
+```bash
+pnpm install
+```
+
+## Run locally
+
+Start the development server:
+
+```bash
+pnpm dev
+```
+
+Open [http://localhost:3000](http://localhost:3000).
+
+## Production build
+
+Create and validate the production build:
+
+```bash
+pnpm build
+```
+
+Run the production server after a successful build:
+
+```bash
+pnpm start
+```
+
+Open [http://localhost:3000](http://localhost:3000).
+
+## Quality checks
+
+Run ESLint:
+
+```bash
+pnpm lint
+```
+
+## API routes
+
+- `GET /api/products` supports `search`, `category`, `rating`, `minPrice`, `maxPrice`, `sort`, `page`, and `limit`.
+- `GET /api/products/:slug` returns the complete product detail.
+- `GET /api/categories` supports `page` and `limit`.
+
+Example:
+
+```text
+/api/products?search=sony&category=electronics&rating=4&sort=price-asc&page=1&limit=12
+```
+
+## Data source
+
+The API reads local fixture data from:
+
+- `data/products-500.json`
+- `data/categories.json`
+- `data/reviews.json`
