@@ -9,25 +9,25 @@ A Next.js product catalog backed by local JSON fixtures. The application exposes
 
 ## Environment setup
 
-Before installing or running the project, create your local environment file from the example:
+Before installing or running the project, create `.env` from the example:
 
 ```powershell
-Copy-Item .env.example .env.local
+Copy-Item .env.example .env
 ```
 
 For macOS or Linux:
 
 ```bash
-cp .env.example .env.local
+cp .env.example .env
 ```
 
-Set the API URL in `.env.local` to the local Next.js API:
+Set the API URL in `.env` to the local Next.js API:
 
 ```env
-NEXT_PUBLIC_API_URL=http://localhost:3000/api/
+API_URL=http://localhost:3000/api
 ```
 
-If you run the app on another port, update this value to use that port.
+If you run the app on another port, update this value to use that port. Do not commit `.env`; use `.env.example` as the shared configuration template.
 
 ## Install pnpm
 
