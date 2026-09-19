@@ -1,23 +1,14 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from '@/components/ui/sheet';
-import { useGetAllProducts, useGetCategories } from '@/hooks';
+import { useGetAllProducts } from '@/hooks';
 import { generateQueryString } from '@/lib';
-import { Filter, Search } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
-import { ShopFilterControls } from './shop-filter-controls';
 import { ShopPagination } from './shop-pagination';
 import { ShopProductsGrid } from './shop-products-grid';
+import { ShopsPhoneFilter } from './shops-phone-filter';
+import { ShopFilterContainer } from './shop-filter-container';
 
 export function ShopsPageContent() {
   const searchParams = useSearchParams();
@@ -30,7 +21,6 @@ export function ShopsPageContent() {
     minPrice: searchParams.get('minPrice') || '',
     maxPrice: searchParams.get('maxPrice') || '',
     sort: searchParams.get('sort') || 'featured',
-    limit: '12',
   });
   const [searchQuery, setSearchQuery] = useState(
     searchParams.get('search') || '',
@@ -43,9 +33,8 @@ export function ShopsPageContent() {
   const queryString = generateQueryString(params);
   const { fetchAllProducts, fetchAllProductsData } =
     useGetAllProducts(queryString);
-  const { fetchAllCategories, fetchAllCategoriesData } = useGetCategories();
+
   const products = fetchAllProductsData?.data ?? [];
-  const categories = fetchAllCategoriesData?.data ?? [];
   const meta = fetchAllProductsData?.meta;
 
   useEffect(() => {
@@ -75,75 +64,22 @@ export function ShopsPageContent() {
           Shop all products
         </h1>
 
-        <label className='relative mt-8 block lg:hidden'>
-          <span className='sr-only'>Search products</span>
-          <Search className='pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-[#004643]/45' />
-          <Input
-            className='h-12 border-[#004643]/20 bg-[#F0EEDE] pl-11 text-[#004643] placeholder:text-[#004643]/45'
-            onChange={(event) => handleSearch(event.target.value)}
-            placeholder='Search products'
-            value={searchQuery}
-          />
-        </label>
-
-        <div className='mt-6 flex items-center justify-between gap-3 lg:hidden'>
-          <p className='text-sm text-[#004643]/65'>
-            {meta ? `${meta.total} products found` : 'Finding products...'}
-          </p>
-          <Sheet>
-            <SheetTrigger
-              render={
-                <Button
-                  className='border-[#004643]/25 text-[#004643] hover:bg-[#004643]/10'
-                  variant='outline'
-                />
-              }
-            >
-              <Filter className='size-4' />
-              Filters
-            </SheetTrigger>
-            <SheetContent
-              className='max-h-[85dvh] overflow-y-auto border-[#004643]/15 bg-[#F0EEDE] text-[#004643]'
-              side='bottom'
-            >
-              <SheetHeader>
-                <SheetTitle className='text-[#004643]'>Filters</SheetTitle>
-              </SheetHeader>
-              <div className='px-4 pb-8'>
-                <ShopFilterControls
-                  categories={categories}
-                  isCategoriesLoading={fetchAllCategories.isLoading}
-                  params={params}
-                  setParams={setParams}
-                />
-              </div>
-            </SheetContent>
-          </Sheet>
-        </div>
+        <ShopsPhoneFilter
+          handleSearch={handleSearch}
+          searchQuery={searchQuery}
+          meta={meta}
+          params={params}
+          setParams={setParams}
+        />
 
         <div className='mt-10 grid gap-10 lg:grid-cols-[15rem_minmax(0,1fr)]'>
-          <aside className='hidden lg:block bg-[#f7f7ed]'>
-            <div className='sticky top-24 border border-[#004643]/15 bg-[#F0EEDE]/60 p-5'>
-              <label className='relative block'>
-                <span className='sr-only'>Search products</span>
-                <Search className='pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-[#004643]/45' />
-                <Input
-                  className='h-10 border-[#004643]/20 bg-transparent pl-10 text-[#004643] placeholder:text-[#004643]/45'
-                  onChange={(event) => handleSearch(event.target.value)}
-                  placeholder='Search products'
-                  value={searchQuery}
-                />
-              </label>
-              <div className='mt-6'>
-                <ShopFilterControls
-                  categories={categories}
-                  isCategoriesLoading={fetchAllCategories.isLoading}
-                  params={params}
-                  setParams={setParams}
-                />
-              </div>
-            </div>
-          </aside>
+          <ShopFilterContainer
+            params={params}
+            setParams={setParams}
+            handleSearch={handleSearch}
+            searchQuery={searchQuery}
+            meta={meta}
+          />
 
           <section id='shop-results' className='min-w-0 scroll-mt-24'>
             <div className='mb-6 hidden items-center justify-between gap-4 lg:flex'>

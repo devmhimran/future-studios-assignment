@@ -14,7 +14,6 @@ export interface ProductParams {
   minPrice: string;
   maxPrice: string;
   sort: string;
-  limit: string;
 }
 
 interface ProductFilterContainerProps {

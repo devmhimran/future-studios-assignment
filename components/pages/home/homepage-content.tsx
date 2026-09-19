@@ -1,6 +1,6 @@
 'use client';
 
-import { Footer, ProductFilterContainer } from '@/components/shared';
+import { Footer } from '@/components/shared';
 import { useGetAllProducts, useGetCategories } from '@/hooks';
 import { generateQueryString } from '@/lib';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -10,6 +10,7 @@ import { CategorySection } from './category-section';
 import { HeroSection } from './hero-section';
 import { ProductsSection } from './products-section';
 import ProductPagination from './products-pagination';
+import { ProductFilterContainer } from './product-filter-container';
 
 export function HomepageContent() {
   const searchParams = useSearchParams();
@@ -22,7 +23,6 @@ export function HomepageContent() {
     minPrice: searchParams.get('minPrice') || '',
     maxPrice: searchParams.get('maxPrice') || '',
     sort: searchParams.get('sort') || 'featured',
-    limit: '12',
   });
   const [searchQuery, setSearchQuery] = useState(
     searchParams.get('search') || '',

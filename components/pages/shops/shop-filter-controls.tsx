@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import type { ProductParams } from '@/components/shared/product-filter-container';
+import type { ProductParams } from '@/components/pages/home/product-filter-container';
 import type { Category } from '@/types';
 import { Star, X } from 'lucide-react';
 import type { Dispatch, SetStateAction } from 'react';
