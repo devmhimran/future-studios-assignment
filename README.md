@@ -18,13 +18,13 @@ Copy-Item .env.example .env
 For macOS or Linux:
 
 ```bash
-cp .env.example .env
+cp .env.example .env.local
 ```
 
 Set the API URL in `.env` to the local Next.js API:
 
 ```env
-API_URL=http://localhost:3000/api
+NEXT_PUBLIC_API_URL=http://localhost:3000/api
 ```
 
 If you run the app on another port, update this value to use that port. Do not commit `.env`; use `.env.example` as the shared configuration template.

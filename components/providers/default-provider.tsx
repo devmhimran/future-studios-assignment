@@ -1,3 +1,5 @@
+'use client';
+
 import { getQueryClient } from '@/lib';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from 'sonner';

@@ -5,7 +5,7 @@ import { Category, Response } from '@/types';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 
 export function useGetCategories(options?: string) {
-  const fetchAllProducts = useQuery<Response<Category[]>>({
+  const fetchAllCategories = useQuery<Response<Category[]>>({
     queryKey: ['categories', options],
     queryFn: async () => {
       const res = await categoriesAPI
@@ -17,7 +17,7 @@ export function useGetCategories(options?: string) {
   });
 
   return {
-    fetchAllProducts,
-    fetchAllProductsData: fetchAllProducts.data,
+    fetchAllCategories,
+    fetchAllCategoriesData: fetchAllCategories.data,
   };
 }
