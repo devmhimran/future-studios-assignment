@@ -17,5 +17,13 @@ export async function GET(_: Request, { params }: RouteContext) {
     return jsonResponse({ error: { message: 'Product not found' } }, { status: 404 });
   }
 
-  return jsonResponse({ data: product });
+  const productsById = new Map(
+    productsData.products.map((item) => [item.id, item]),
+  );
+  const relatedProducts = product.relatedProductIds.flatMap((id) => {
+    const relatedProduct = productsById.get(id);
+    return relatedProduct ? [relatedProduct] : [];
+  });
+
+  return jsonResponse({ data: product, relatedProducts });
 }

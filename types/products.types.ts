@@ -11,26 +11,21 @@ export interface Product {
   thumbnail: string;
 }
 
-export interface ProductDetail {
+export interface ProductDetail extends Product {
   id: number;
   sku: string;
-  slug: string;
-  title: string;
-  brand: string;
-  description: string;
-  price: number;
-  originalPrice: number;
   discountPercentage: number;
   currency: string;
-  rating: number;
-  reviewCount: number;
   stock: number;
-  availabilityStatus: string;
-  thumbnail: string;
   images: string[];
   tags: string[];
   features: string[];
   relatedProductIds: number[];
   createdAt: string;
   categoryId: number;
+}
+
+export interface ProductDetailResponse {
+  data: ProductDetail;
+  relatedProducts: ProductDetail[];
 }
