@@ -7,6 +7,7 @@ import { Search, SlidersHorizontal, X } from 'lucide-react';
 import type { Dispatch, SetStateAction } from 'react';
 
 export interface ProductParams {
+  [key: string]: string;
   search: string;
   page: string;
   category: string;
