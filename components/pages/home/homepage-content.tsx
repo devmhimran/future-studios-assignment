@@ -60,10 +60,7 @@ export function HomepageContent() {
 
   return (
     <main className='min-h-screen overflow-hidden bg-[#F0EEDE5] text-[#004643]'>
-      <HeroSection
-        onBrowseCategories={() => scrollTo('discover')}
-        onShop={() => scrollTo('shop')}
-      />
+      <HeroSection onBrowseCategories={() => scrollTo('discover')} />
       <CategorySection
         categories={categories}
         onCategorySelect={handleCategorySelect}

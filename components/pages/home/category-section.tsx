@@ -1,5 +1,6 @@
 import { ArrowRight } from 'lucide-react';
 import type { Category } from '@/types';
+import Link from 'next/link';
 
 interface CategorySectionProps {
   categories: Category[];
@@ -33,14 +34,14 @@ export function CategorySection({
       </div>
       <div className='mt-7 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5'>
         {categories.map((category) => (
-          <button
+          <Link
+            href={`/shops?category=${category.slug}`}
             className='group flex min-h-32 flex-col justify-between rounded-sm border border-[#004643]/20 bg-[#f7f7ed] p-5 text-left text-[#004643] transition hover:border-[#004643] hover:bg-[#004643] hover:text-[#F0EEDE]'
             key={category.id}
-            onClick={() => onCategorySelect(category.slug)}
           >
             <span className='text-sm font-semibold'>{category.name}</span>
             <ArrowRight className='size-5 transition group-hover:translate-x-1' />
-          </button>
+          </Link>
         ))}
       </div>
     </section>

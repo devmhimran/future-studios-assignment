@@ -2,13 +2,13 @@ import Image from 'next/image';
 import { ArrowRight } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 interface HeroSectionProps {
   onBrowseCategories: () => void;
-  onShop: () => void;
 }
 
-export function HeroSection({ onBrowseCategories, onShop }: HeroSectionProps) {
+export function HeroSection({ onBrowseCategories }: HeroSectionProps) {
   return (
     <section className='container mx-auto pb-16'>
       <div className='relative isolate overflow-hidden border-b border-[#004643]/15 bg-[#F0EEDE5]'>
@@ -25,12 +25,11 @@ export function HeroSection({ onBrowseCategories, onShop }: HeroSectionProps) {
               selected to make everyday life feel more yours.
             </p>
             <div className='mt-8 flex flex-wrap items-center gap-3'>
-              <Button
-                className='h-11 rounded-full bg-[#004643] px-5 text-white hover:bg-[#003d3a]'
-                onClick={onShop}
-              >
-                Shop now <ArrowRight className='size-4' />
-              </Button>
+              <Link href='/shops'>
+                <Button className='h-11 rounded-full bg-[#004643] px-5 text-white hover:bg-[#003d3a]'>
+                  Shop now <ArrowRight className='size-4' />
+                </Button>
+              </Link>
               <Button
                 className='h-11 rounded-full border-[#004643]/30 px-5 text-[#004643] hover:bg-[#004643]/10'
                 onClick={onBrowseCategories}
