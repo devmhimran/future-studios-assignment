@@ -1,33 +1,48 @@
 'use client';
 
 import { useGetAllProducts } from '@/hooks';
+import type { ProductParams } from '@/components/pages/home/product-filter-container';
 import { generateQueryString } from '@/lib';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 import { ShopPagination } from './shop-pagination';
 import { ShopProductsGrid } from './shop-products-grid';
 import { ShopsPhoneFilter } from './shops-phone-filter';
 import { ShopFilterContainer } from './shop-filter-container';
 
+function readParams(sp: ReturnType<typeof useSearchParams>) {
+  return {
+    search: sp.get('search') || '',
+    page: sp.get('page') || '1',
+    category: sp.get('category') || '',
+    rating: sp.get('rating') || '',
+    minPrice: sp.get('minPrice') || '',
+    maxPrice: sp.get('maxPrice') || '',
+    sort: sp.get('sort') || 'featured',
+  };
+}
+
 export function ShopsPageContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const [params, setParams] = useState({
-    search: searchParams.get('search') || '',
-    page: searchParams.get('page') || '1',
-    category: searchParams.get('category') || '',
-    rating: searchParams.get('rating') || '',
-    minPrice: searchParams.get('minPrice') || '',
-    maxPrice: searchParams.get('maxPrice') || '',
-    sort: searchParams.get('sort') || 'featured',
-  });
+  const params = useMemo(() => readParams(searchParams), [searchParams]);
   const [searchQuery, setSearchQuery] = useState(
     searchParams.get('search') || '',
   );
+  const pushParams = useCallback(
+    (updater: ProductParams | ((prev: ProductParams) => ProductParams)) => {
+      const next = typeof updater === 'function' ? updater(params) : updater;
+      router.push(
+        `/shops${generateQueryString(next as Record<string, string>)}`,
+        { scroll: false },
+      );
+    },
+    [params, router],
+  );
   const debouncedSearch = useDebouncedCallback(
     (search: string) =>
-      setParams((current) => ({ ...current, search, page: '1' })),
+      pushParams((current) => ({ ...current, search, page: '1' })),
     350,
   );
   const queryString = generateQueryString(params);
@@ -37,18 +52,14 @@ export function ShopsPageContent() {
   const products = fetchAllProductsData?.data ?? [];
   const meta = fetchAllProductsData?.meta;
 
-  useEffect(() => {
-    router.replace(`/shops${queryString}`, { scroll: false });
-  }, [queryString, router]);
-
   const handleSearch = (search: string) => {
     setSearchQuery(search);
     debouncedSearch(search);
   };
   const updateSort = (sort: string) =>
-    setParams((current) => ({ ...current, sort, page: '1' }));
+    pushParams((current) => ({ ...current, sort, page: '1' }));
   const changePage = (page: number) => {
-    setParams((current) => ({ ...current, page: String(page) }));
+    pushParams((current) => ({ ...current, page: String(page) }));
     document
       .getElementById('shop-results')
       ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -69,14 +80,14 @@ export function ShopsPageContent() {
           searchQuery={searchQuery}
           meta={meta}
           params={params}
-          setParams={setParams}
+          setParams={pushParams}
           updateSort={updateSort}
         />
 
         <div className='mt-10 grid gap-10 lg:grid-cols-[15rem_minmax(0,1fr)]'>
           <ShopFilterContainer
             params={params}
-            setParams={setParams}
+            setParams={pushParams}
             handleSearch={handleSearch}
             searchQuery={searchQuery}
             meta={meta}

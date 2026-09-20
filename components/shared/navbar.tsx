@@ -45,6 +45,7 @@ export function Navbar() {
           </Link>
           <DropdownMenu>
             <DropdownMenuTrigger
+              openOnHover
               render={
                 <Button
                   className='gap-1 text-[#F0EEDE] hover:bg-[#F0EEDE]/20 hover:text-[#F0EEDE]'
@@ -72,16 +73,20 @@ export function Navbar() {
               <DropdownMenuSeparator className='bg-[#004643]/15' /> */}
               <DropdownMenuGroup className='grid grid-cols-2 gap-1'>
                 {fetchAllCategoriesData?.data?.map((category) => (
-                  <DropdownMenuItem
-                    className={
-                      activeCategory === category.slug
-                        ? 'bg-[#004643] px-2.5 py-2 text-[#F0EEDE] focus:bg-[#004643] focus:text-[#F0EEDE]'
-                        : 'px-2.5 py-2 focus:bg-[#004643]/10 focus:text-[#004643]'
-                    }
+                  <Link
                     key={category.id}
+                    href={`/shops?category=${category.slug}`}
                   >
-                    {category.name}
-                  </DropdownMenuItem>
+                    <DropdownMenuItem
+                      className={
+                        activeCategory === category.slug
+                          ? 'bg-[#004643] px-2.5 py-2 text-[#F0EEDE] focus:bg-[#004643] focus:text-[#F0EEDE]'
+                          : 'px-2.5 py-2 focus:bg-[#004643]/10 focus:text-[#004643]'
+                      }
+                    >
+                      {category.name}
+                    </DropdownMenuItem>
+                  </Link>
                 ))}
               </DropdownMenuGroup>
             </DropdownMenuContent>
