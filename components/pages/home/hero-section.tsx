@@ -85,10 +85,10 @@ export function HeroSection({ onBrowseCategories }: HeroSectionProps) {
             </div>
           </div>
 
-          <div className='relative lg:col-span-6 w-full h-full min-h-[450px] lg:min-h-[580px] flex items-end justify-center'>
+          <div className='relative lg:col-span-6 w-full h-full min-h-112.5 lg:min-h-145 flex items-end justify-center'>
             <div className='absolute inset-x-0 bottom-0 top-6 rounded-t-full bg-[#F2EFE9] -z-10' />
 
-            <div className='relative w-full h-full min-h-[450px] lg:min-h-[580px]'>
+            <div className='relative w-full h-full min-h-112.5 lg:min-h-145'>
               <Image
                 src='/hero-img.png'
                 alt='Redefining Everyday Tech'
