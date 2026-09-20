@@ -14,23 +14,33 @@ This repository is a single Next.js 16 App Router application for browsing a loc
 
 ```text
 app/
-  (public)/page.tsx                  Public product-search page
-  api/products/route.ts              Product collection API
-  api/categories/route.ts            Category collection API
-  globals.css                        Global Tailwind styles
+  (public)/
+    page.tsx                         Home page
+    shops/
+      page.tsx                       Product catalog page
+      [slug]/page.tsx                Product detail page
+  api/
+    categories/route.ts              Category collection API
+    products/
+      route.ts                       Product collection API
+      [slug]/route.ts                Product detail API
+  globals.css                        Global styles and Tailwind theme
   layout.tsx                         Root layout and providers
 api/
-  index.ts                           Client API modules and barrel exports
+  categories.ts                      Categories client API module
+  products.ts                        Products client API module
+  index.ts                           Client API barrel exports
 components/
-  pages/home/                        Product-search page container and views
-  forms/                             Reusable search and filter controls
+  pages/
+    home/                            Home page sections, cards, filters, and pagination
+    shops/                           Catalog page container, filters, mobile filter, grid, and pagination
+    product-details/                 Product detail page container
   providers/                         React Query and application providers
-  shared/                            Reusable application-level components
+  shared/                            Navbar, footer, loading, and shared sheets
   ui/                                Local shadcn primitives
-config/env.ts                        Environment access
 data/                                Local product, category, and review fixtures
 hooks/                               React Query hooks and barrel exports
-lib/                                 HTTP client, server query helpers, and utilities
+lib/                                 HTTP client, query helpers, response helpers, and utilities
 types/                               Domain contracts and barrel exports
 ```
 

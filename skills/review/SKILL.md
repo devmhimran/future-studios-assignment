@@ -14,5 +14,6 @@ Review product-catalog changes for correct Next.js boundaries, typed API behavio
 - Filter or sort changes reset the requested page to `1`.
 - React Query keys include all request parameters and loading transitions do not discard visible results unnecessarily.
 - App imports use `@/` aliases; type imports use `@/types`; UI primitives use `@/components/ui`.
-- Public page composition is separate from API, hook, and server filtering responsibilities.
+- Home, shops catalog, and product-detail route composition is separate from API, hook, and server filtering responsibilities.
+- Desktop catalog layouts use a sidebar without duplicating query state; mobile filter sheets consume the same filter-control contract.
 - Generated code is strictly typed and contains no comments or dead code.

@@ -3,7 +3,10 @@ import type { NextConfig } from 'next';
 const nextConfig: NextConfig = {
   /* config options here */
   images: {
-    remotePatterns: [{ hostname: 'picsum.photos' }],
+    remotePatterns: [
+      { hostname: 'picsum.photos', pathname: '**' },
+      { hostname: 'images.unsplash.com', pathname: '**' },
+    ],
   },
   async headers() {
     return [

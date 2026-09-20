@@ -1,7 +1,7 @@
 'use client';
 
 import { productAPI } from '@/api';
-import type { Product, ProductDetail, Response } from '@/types';
+import type { Product, ProductDetailResponse, Response } from '@/types';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 
 export function useGetAllProducts(options?: string) {
@@ -23,7 +23,7 @@ export function useGetAllProducts(options?: string) {
 }
 
 export function useGetProductBySlug(slug: string) {
-  const fetchProductBySlug = useQuery<{ data: ProductDetail }>({
+  const fetchProductBySlug = useQuery<ProductDetailResponse>({
     queryKey: ['product', slug],
     queryFn: async () => {
       const res = await productAPI

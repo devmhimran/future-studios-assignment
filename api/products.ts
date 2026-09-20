@@ -1,5 +1,5 @@
 import { apiClient } from '@/lib';
-import type { Product, ProductDetail, Response } from '@/types';
+import type { Product, ProductDetailResponse, Response } from '@/types';
 
 const path = `/products`;
 
@@ -10,6 +10,6 @@ export const productAPI = {
   },
   getProductBySlug(slug: string) {
     const url = `${path}/${slug}`;
-    return apiClient.get<{ data: ProductDetail }>(url);
+    return apiClient.get<ProductDetailResponse>(url);
   },
 };
